@@ -52,21 +52,21 @@ function SignUpForm() {
                   type="text"
                   label="Full Name: "
                   placeholder="Enter Fullname..."
-                  {...register("fullName")}
+                  {...register("fullName", { required: true })}
                 />
 
                 <Input
                   type="email"
                   label="Email: "
                   placeholder="Enter Email..."
-                  {...register("email")}
+                  {...register("email", { required: true })}
                 />
 
                 <Input
                   type="password"
                   label="Password: "
                   placeholder="Enter Password"
-                  {...register("password")}
+                  {...register("password", { required: true })}
                 />
               </div>
 

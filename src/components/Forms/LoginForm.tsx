@@ -51,14 +51,14 @@ function LoginForm() {
                   type="email"
                   label="Email: "
                   placeholder="Enter Email"
-                  {...register("email")}
+                  {...register("email", { required: true })}
                 />
 
                 <Input
                   type="password"
                   label="Password: "
                   placeholder="Enter Password"
-                  {...register("password")}
+                  {...register("password", { required: true })}
                 />
               </div>
 
