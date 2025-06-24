@@ -1,7 +1,7 @@
 import AppLayout from "./AppLayout";
-import Header from "./Header";
-import HeroSection from "./HeroSection";
-import HowItWorks from "./HowItWorks";
-import Footer from "./Footer";
+import Header from "./sections/Header";
+import HeroSection from "./sections/HeroSection";
+import HowItWorks from "./sections/HowItWorks";
+import Footer from "./sections/Footer";
 
 export { AppLayout, Header, HeroSection, HowItWorks, Footer };
