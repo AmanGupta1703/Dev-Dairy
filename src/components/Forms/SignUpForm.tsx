@@ -1,8 +1,11 @@
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import { authService } from "../../services/appwrite/auth";
+import { login } from "../../store/authSlice";
 import { Button, Input } from "../../components";
 
 type SignUpFormInputs = {
@@ -15,10 +18,10 @@ function SignUpForm() {
   const [error, setError] = useState<string>("");
 
   const { register, handleSubmit } = useForm<SignUpFormInputs>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function handleLogin(data: SignUpFormInputs) {
-    setError("");
-
+  async function handleLogin(data: SignUpFormInputs) {
     const isInputFieldsEmpty = Object.keys(data).some(
       (key) => data[key as keyof SignUpFormInputs] === "",
     );
@@ -28,13 +31,21 @@ function SignUpForm() {
       return;
     }
 
-    console.log(data);
+    const session = await authService.createAccount({ ...data });
+
+    if (session) {
+      const userData = await authService.getLoggedInUserDetails();
+
+      if (userData) dispatch(login({ userData }));
+      else setError("Failed to retrieve user details after sign up.");
+      navigate("/");
+    }
   }
 
   return (
     <section>
       <div className="flex justify-center">
-        <div className="w-2/6 rounded-lg bg-white px-5 py-6 shadow-lg drop-shadow-lg">
+        <div className="w-2/6 rounded-2xl bg-white px-5 py-6 shadow-lg drop-shadow-lg">
           <h1 className="mb-6 text-center text-2xl font-bold text-slate-800">
             Sign Up for Your Account
           </h1>
@@ -77,11 +88,11 @@ function SignUpForm() {
           </article>
 
           <article className="mt-4">
-            <p className="text-base text-slate-600">
+            <p className="text-center text-base text-slate-600">
               Already have an account?
               <Link
                 to="/login"
-                className="ml-1.5 inline-block font-bold text-slate-800 underline transition-all duration-200 hover:text-slate-900 focus:ring-1 focus:ring-slate-900 focus:ring-offset-1 focus:outline-none"
+                className="ml-1.5 inline-block font-bold text-blue-500 underline transition-all duration-200 hover:text-blue-600 focus:ring-1 focus:ring-blue-600 focus:ring-offset-1 focus:outline-none"
               >
                 Sign in
               </Link>

@@ -33,7 +33,7 @@ function LoginForm() {
   return (
     <section>
       <div className="flex justify-center">
-        <div className="w-2/6 rounded-lg bg-white px-5 py-6 shadow-lg drop-shadow-lg">
+        <div className="w-2/6 rounded-2xl bg-white px-5 py-6 shadow-lg drop-shadow-lg">
           <h1 className="mb-6 text-center text-2xl font-bold text-slate-800">
             Login to Your Account
           </h1>
@@ -69,12 +69,11 @@ function LoginForm() {
           </article>
 
           <article className="mt-4">
-            <p className="text-base text-slate-600">
+            <p className="text-center text-base text-slate-600">
               Don't have an account?
               <Link
                 to="/sign-up"
-                className="ml-1.5 inline-block font-bold text-slate-800 underline transition-all duration-200 hover:text-slate-900 focus:ring-1 focus:ring-slate-900 focus:ring-offset-1 focus:outline-none"
-              >
+                className="ml-1.5 inline-block font-bold text-blue-500 underline transition-all duration-200 hover:text-blue-600 focus:ring-1 focus:ring-blue-600 focus:ring-offset-1 focus:outline-none">
                 Sign up
               </Link>
             </p>

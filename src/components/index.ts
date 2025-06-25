@@ -1,4 +1,5 @@
 import AppLayout from "./AppLayout";
+import AuthLayout from "./AuthLayout";
 
 import Header from "./sections/Header";
 import HeroSection from "./sections/HeroSection";
@@ -10,9 +11,11 @@ import SignUpForm from "./Forms/SignUpForm";
 
 import Input from "./ui/Input";
 import Button from "./ui/Button";
+import LogoutBtn from "./ui/LogoutBtn";
 
 export {
   AppLayout,
+  AuthLayout,
   Header,
   HeroSection,
   HowItWorks,
@@ -21,4 +24,5 @@ export {
   SignUpForm,
   Input,
   Button,
+  LogoutBtn,
 };
