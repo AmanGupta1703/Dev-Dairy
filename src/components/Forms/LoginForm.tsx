@@ -1,9 +1,13 @@
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
+import { authService } from "../../services/appwrite/auth";
+import { login } from "../../store/authSlice";
 import { Input, Button } from "../../components";
+import { AppwriteException } from "appwrite";
 
 type LoginFormInputs = {
   email: string;
@@ -12,10 +16,13 @@ type LoginFormInputs = {
 
 function LoginForm() {
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function handleLogin(data: LoginFormInputs) {
+  async function handleLogin(data: LoginFormInputs) {
     setError("");
 
     const isInputFieldsEmpty = Object.keys(data).some(
@@ -27,7 +34,32 @@ function LoginForm() {
       return;
     }
 
-    console.log(data);
+    setIsLoading(true);
+    try {
+      const session = await authService.login({ ...data });
+
+      if (session) {
+        const userData = await authService.getLoggedInUserDetails();
+
+        if (userData) {
+          dispatch(login({ userData }));
+          navigate("/posts");
+        } else {
+          setError("Failed to retrieve user details. Please try again.");
+        }
+      } else {
+        setError("Invalid email or password. Please try again.");
+      }
+    } catch (error) {
+      console.log("LoginForm :: handleLogin :: error", error);
+      setError(
+        error instanceof AppwriteException || error instanceof Error
+          ? error.message
+          : "An unexpected error occurred. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -62,8 +94,12 @@ function LoginForm() {
                 />
               </div>
 
-              <Button className="block w-full" type="submit">
-                Submit
+              <Button
+                className="block w-full"
+                type="submit"
+                disabled={isLoading}
+                style={{ cursor: isLoading ? "not-allowed" : "" }}>
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
             </form>
           </article>

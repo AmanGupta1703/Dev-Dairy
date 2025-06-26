@@ -35,6 +35,7 @@ class AuthService {
       }
     } catch (error) {
       console.log("AuthService :: createAccount :: error ::", error);
+      throw error;
     }
   }
 
@@ -44,6 +45,7 @@ class AuthService {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
       console.log("AuthService :: login :: error ::", error);
+      throw error;
     }
   }
 
@@ -53,6 +55,7 @@ class AuthService {
       return this.account.get();
     } catch (error) {
       console.log("AuthService :: getLoggedInUserDetails :: error ::", error);
+      throw error;
     }
   }
 
