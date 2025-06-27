@@ -7,7 +7,7 @@ import { store } from "./store/store";
 
 import { AppLayout, AuthLayout } from "./components";
 
-import { Home, Login, SignUp } from "./pages";
+import { AddPost, Home, Login, SignUp } from "./pages";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         path: "/add-post",
         element: (
           <AuthLayout authentication>
-            <h1>Add post</h1>
+            <AddPost />
           </AuthLayout>
         ),
       },

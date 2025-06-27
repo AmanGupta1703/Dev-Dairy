@@ -3,10 +3,11 @@ import { useId, forwardRef } from "react";
 interface IInput extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   type?: string;
+  className?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, IInput>(
-  ({ label, type = "text", ...props }, ref) => {
+  ({ label, type = "text", className, ...props }, ref) => {
     const id = useId();
 
     return (
@@ -19,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, IInput>(
           )}
           <input
             ref={ref}
-            className="rounded border-2 border-slate-900 p-2 text-slate-800 transition-all duration-200 placeholder:text-sm placeholder:text-gray-400 focus:ring-1 focus:ring-slate-900 focus:ring-offset-1 focus:outline-none"
+            className={`rounded border-2 border-slate-900 p-2 text-slate-800 transition-all duration-200 placeholder:text-sm placeholder:text-gray-400 focus:ring-1 focus:ring-slate-900 focus:ring-offset-1 focus:outline-none ${className}`}
             id={id}
             type={type}
             {...props}

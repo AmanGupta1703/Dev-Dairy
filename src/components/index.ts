@@ -8,10 +8,14 @@ import Footer from "./sections/Footer";
 
 import LoginForm from "./Forms/LoginForm";
 import SignUpForm from "./Forms/SignUpForm";
+import AddPostForm from "./Forms/AddPostForm";
 
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import LogoutBtn from "./ui/LogoutBtn";
+import Select from "./ui/Select";
+import Textarea from "./ui/Textarea";
+import RTE from "./ui/RTE";
 
 export {
   AppLayout,
@@ -22,7 +26,11 @@ export {
   Footer,
   LoginForm,
   SignUpForm,
+  AddPostForm,
   Input,
   Button,
   LogoutBtn,
+  Select,
+  Textarea,
+  RTE,
 };
