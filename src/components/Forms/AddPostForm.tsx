@@ -1,8 +1,11 @@
-import { useCallback, useEffect } from "react";
-
-import { Input, Button, Select, Textarea, RTE } from "../";
+import { useCallback, useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+
+import { Input, Button, Select, Textarea, RTE } from "../";
+import { databaseService } from "../../services/appwrite/database";
+import { storageService } from "../../services/appwrite/storage";
 
 interface IAddPostData {
   title: string;
@@ -18,7 +21,9 @@ interface IAddPostFormProps {
 }
 
 function AddPostForm({ post }: IAddPostFormProps) {
-  const { handleSubmit, control, register, watch, getValues, setValue } =
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { handleSubmit, control, register, watch, getValues, setValue, reset } =
     useForm<IAddPostData>({
       defaultValues: {
         title: post?.title || "",
@@ -28,9 +33,40 @@ function AddPostForm({ post }: IAddPostFormProps) {
         content: post?.content || "",
       },
     });
+  const userData = useSelector((state: any) => state.auth.userData);
 
-  function handleAddPost(data: IAddPostData) {
-    console.log(data);
+  async function handleAddPost(data: IAddPostData) {
+    setIsLoading(true);
+
+    if (post) {
+      // TODO
+    } else {
+      // User is creating a new post
+      try {
+        const file = data.featuredImage[0]
+          ? await storageService.uploadFile(
+              data.featuredImage[0] as unknown as File,
+            )
+          : null;
+
+        if (file) {
+          const fileId = file.$id;
+
+          const dbPost = await databaseService.createPost({
+            ...data,
+            featuredImage: fileId,
+            userId: userData.$id,
+          });
+
+          console.log(dbPost);
+        }
+      } catch (error) {
+        console.log("AddPostForm :: handleAddPost :: error", error);
+      } finally {
+        setIsLoading(false);
+        reset();
+      }
+    }
   }
 
   const slugTransform = useCallback(function (value: string) {
@@ -108,17 +144,23 @@ function AddPostForm({ post }: IAddPostFormProps) {
 
           <div className="flex-2/3">
             <RTE
-              name="content"
               label="Post Content"
               control={control}
+              {...register("content", { required: true })}
               defaultValue={getValues("content")}
             />
           </div>
         </div>
         <div className="flex justify-center">
-          <Button type="submit" className="w-1/2">
-            {post ? "Update Post" : "Create Post"}
-          </Button>
+          {!isLoading ? (
+            <Button type="submit" className="w-1/2" disabled={isLoading}>
+              {post ? "Update Post" : "Create Post"}
+            </Button>
+          ) : (
+            <Button type="submit" className="w-1/2" disabled={isLoading}>
+              {post ? "Updating Post" : "Creating Post"}
+            </Button>
+          )}
         </div>
       </form>
     </>

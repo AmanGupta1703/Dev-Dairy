@@ -9,6 +9,7 @@ type CreatePostParams = {
   description: string;
   status: string;
   content: string;
+  userId: string;
 };
 
 type TUpdatePostParam = {
@@ -37,13 +38,14 @@ class DatabaseService {
     description,
     status,
     content,
+    userId,
   }: CreatePostParams) {
     try {
       return await this.database.createDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         slug,
-        { title, featuredImage, description, status, content },
+        { title, featuredImage, description, status, content, userId },
       );
     } catch (error) {
       console.log("DatabaseService :: createPost :: error ::", error);
