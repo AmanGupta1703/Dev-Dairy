@@ -7,7 +7,15 @@ import { store } from "./store/store";
 
 import { AppLayout, AuthLayout } from "./components";
 
-import { AddPost, Home, Login, SignUp } from "./pages";
+import {
+  AddPost,
+  AllPosts,
+  EditPost,
+  Home,
+  Login,
+  Post,
+  SignUp,
+} from "./pages";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -52,7 +60,7 @@ const router = createBrowserRouter([
         path: "/posts",
         element: (
           <AuthLayout authentication>
-            <h1>All Posts</h1>
+            <AllPosts />
           </AuthLayout>
         ),
       },
@@ -60,15 +68,15 @@ const router = createBrowserRouter([
         path: "/update-post/:id",
         element: (
           <AuthLayout authentication>
-            <h1>Update Post</h1>
+            <EditPost />
           </AuthLayout>
         ),
       },
       {
         path: "/post/:id",
         element: (
-          <AuthLayout authentication>
-            <h1>A Post</h1>
+          <AuthLayout authentication={true}>
+            <Post />
           </AuthLayout>
         ),
       },

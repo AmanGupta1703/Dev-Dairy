@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { Input, Button, Select, Textarea, RTE } from "../";
 import { databaseService } from "../../services/appwrite/database";
 import { storageService } from "../../services/appwrite/storage";
 
-interface IAddPostData {
+export interface IAddPostData {
+  $id?: string;
   title: string;
   slug: string;
   featuredImage: string;
@@ -28,18 +30,53 @@ function AddPostForm({ post }: IAddPostFormProps) {
       defaultValues: {
         title: post?.title || "",
         slug: post?.slug || "",
-        description: post?.featuredImage || "",
+        description: post?.description || "",
         status: post?.status || "active",
         content: post?.content || "",
       },
     });
+  const navigate = useNavigate();
   const userData = useSelector((state: any) => state.auth.userData);
 
   async function handleAddPost(data: IAddPostData) {
     setIsLoading(true);
 
     if (post) {
-      // TODO
+      try {
+        const file = data.featuredImage[0];
+
+        if (file) {
+          console.log("HERE EXISTS");
+          await storageService.deleteFile(post.featuredImage);
+
+          const uploadedFile = await storageService.uploadFile(
+            data.featuredImage[0] as unknown as File,
+          );
+
+          const dbPost = await databaseService.updatePost(
+            { ...data, featuredImage: uploadedFile.$id },
+            post.$id as string,
+          );
+
+          if (dbPost) return navigate(`/post/${dbPost.$id}`);
+        } else if (!file) {
+          const fileId = post.featuredImage;
+
+          const dbUpdatedPost = await databaseService.updatePost(
+            {
+              ...data,
+              featuredImage: fileId,
+            },
+            post.$id as string,
+          );
+
+          if (dbUpdatedPost) return navigate(`/post/${dbUpdatedPost.$id}`);
+        }
+      } catch (error) {
+        console.log("AddPostForm :: handleAddPost :: error ::", error);
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       // User is creating a new post
       try {
@@ -58,7 +95,7 @@ function AddPostForm({ post }: IAddPostFormProps) {
             userId: userData.$id,
           });
 
-          console.log(dbPost);
+          if (dbPost) navigate(`/post/${dbPost.$id}`);
         }
       } catch (error) {
         console.log("AddPostForm :: handleAddPost :: error", error);
@@ -95,6 +132,16 @@ function AddPostForm({ post }: IAddPostFormProps) {
     [watch, slugTransform, setValue],
   );
 
+  useEffect(
+    function () {
+      if (post && Object.values(post).every((val) => val !== ""))
+        setValue("slug", slugTransform(getValues().title ?? ""), {
+          shouldValidate: true,
+        });
+    },
+    [post, getValues().title],
+  );
+
   return (
     <>
       <form onSubmit={handleSubmit(handleAddPost)}>
@@ -113,11 +160,6 @@ function AddPostForm({ post }: IAddPostFormProps) {
               placeholder="Enter slug value"
               className="disabled:cursor-not-allowed disabled:opacity-50"
               disabled
-              onInput={(e) => {
-                setValue("slug", slugTransform(e.currentTarget.value), {
-                  shouldValidate: true,
-                });
-              }}
               {...register("slug", { required: true })}
             />
 
@@ -125,8 +167,18 @@ function AddPostForm({ post }: IAddPostFormProps) {
               label="Featured Image"
               type="file"
               accept="image/*"
-              {...register("featuredImage", { required: true })}
+              {...register("featuredImage", { required: !post })}
             />
+
+            {post?.featuredImage && (
+              <div className="h-40 overflow-hidden rounded">
+                <img
+                  className="h-full w-full object-fill"
+                  src={storageService.getFilePreview(post.featuredImage)}
+                  alt={post.title}
+                />
+              </div>
+            )}
 
             <Textarea
               label="Post Short Description"
@@ -153,11 +205,11 @@ function AddPostForm({ post }: IAddPostFormProps) {
         </div>
         <div className="flex justify-center">
           {!isLoading ? (
-            <Button type="submit" className="w-1/2" disabled={isLoading}>
+            <Button type="submit" className="w-1/2">
               {post ? "Update Post" : "Create Post"}
             </Button>
           ) : (
-            <Button type="submit" className="w-1/2" disabled={isLoading}>
+            <Button type="submit" className="w-1/2">
               {post ? "Updating Post" : "Creating Post"}
             </Button>
           )}

@@ -84,7 +84,7 @@ class DatabaseService {
     slug: string,
   ) {
     try {
-      return this.database.updateDocument(
+      return await this.database.updateDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         slug,

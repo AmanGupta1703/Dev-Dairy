@@ -16,6 +16,9 @@ import LogoutBtn from "./ui/LogoutBtn";
 import Select from "./ui/Select";
 import Textarea from "./ui/Textarea";
 import RTE from "./ui/RTE";
+import AllPosts from "./ui/AllPosts";
+import PostCard from "./ui/PostCard";
+import SinglePost from "./ui/SinglePost";
 
 export {
   AppLayout,
@@ -33,4 +36,7 @@ export {
   Select,
   Textarea,
   RTE,
+  AllPosts,
+  PostCard,
+  SinglePost,
 };

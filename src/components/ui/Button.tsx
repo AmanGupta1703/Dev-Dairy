@@ -10,7 +10,6 @@ type TButton = {
 function Button({
   buttonType = "primary",
   type = "button",
-  bgColor = "bg-blue-500",
   textColor = "text-white",
   borderRadius = "rounded",
   className = "",
@@ -19,17 +18,16 @@ function Button({
 }: TButton) {
   const buttonStateStyles =
     buttonType === "primary"
-      ? "hover:bg-blue-600 hover:ring-1 hover:ring-blue-600 hover:ring-offset-1 focus:bg-blue-600 focus:ring-1 focus:ring-blue-600 focus:ring-offset-1"
+      ? "bg-blue-500 hover:bg-blue-600 hover:ring-1 hover:ring-blue-600 hover:ring-offset-1 focus:bg-blue-600 focus:ring-1 focus:ring-blue-600 focus:ring-offset-1"
       : buttonType === "danger"
-        ? "hover:bg-red-600 hover:ring-1 hover:ring-red-600 hover:ring-offset-1 focus:bg-red-600 focus:ring-1 focus:ring-red-600 focus:ring-offset-1"
+        ? "bg-red-500 hover:bg-red-600 hover:ring-1 hover:ring-red-600 hover:ring-offset-1 focus:bg-red-600 focus:ring-1 focus:ring-red-600 focus:ring-offset-1"
         : "";
 
   return (
     <button
-      className={`cursor-pointer ${borderRadius} px-2 py-2 transition-all duration-200 outline-none ${buttonStateStyles} ${bgColor} ${textColor} ${className}`}
+      className={`cursor-pointer ${borderRadius} px-2 py-2 transition-all duration-200 outline-none ${buttonStateStyles} ${textColor} ${className}`}
       type={type}
-      {...props}
-    >
+      {...props}>
       {children}
     </button>
   );

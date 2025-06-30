@@ -36,7 +36,7 @@ class StorageService {
     }
   }
 
-  async getFilePreview(fileId: string) {
+  getFilePreview(fileId: string) {
     try {
       return this.storage.getFileView(config.appwriteBucketId, fileId);
     } catch (error) {
