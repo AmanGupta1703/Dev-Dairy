@@ -1,54 +1,95 @@
-# React + TypeScript + Vite
+# Dev Dairy
+A modern web application for managing and sharing development posts, built with **React**, **TypeScript**, and **Vite**. Authentication, database, and file storage are powered by **Appwrite**.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- **User Authentication:** Secure sign up, log in, and log out with Appwrite.
+- **Post Management:** Create, edit, and delete your development posts.
+- **Rich Text Editor:** Write posts with formatting using a built-in editor.
+- **Post Browsing:** Browse all posts or view detailed single post pages.
+- **File Uploads:** Attach and preview files in posts via Appwrite Storage.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Structure
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+├── App.tsx                # Main app component
+├── main.tsx               # Entry point
+├── index.css              # Global styles
+├── vite-env.d.ts          # Vite environment types
+├── components/
+│   ├── AppLayout.tsx        # Layout for authenticated users
+│   ├── AuthLayout.tsx       # Layout for authentication pages
+│   ├── index.ts             # Components barrel file
+│   ├── Forms/
+│   │   ├── AddPostForm.tsx    # Add post form
+│   │   ├── LoginForm.tsx      # Login form
+│   │   └── SignUpForm.tsx     # Sign up form
+│   ├── sections/
+│   │   ├── Footer.tsx         # Footer
+│   │   ├── Header.tsx         # Header
+│   │   ├── HeroSection.tsx    # Landing page hero
+│   │   └── HowItWorks.tsx     # How it works section
+│   └── ui/
+│       ├── AllPosts.tsx       # List of all posts
+│       ├── Button.tsx         # Reusable button
+│       ├── Input.tsx          # Reusable input
+│       ├── Loader.tsx         # Loading spinner
+│       ├── LogoutBtn.tsx      # Logout button
+│       ├── PostCard.tsx       # Post card
+│       ├── RTE.tsx            # Rich Text Editor
+│       ├── Select.tsx         # Reusable select
+│       ├── SinglePost.tsx     # Single post view
+│       └── Textarea.tsx       # Reusable textarea
+├── config/
+│   └── index.ts             # App configuration (Appwrite, etc.)
+├── pages/
+│   ├── AddPost.tsx          # Add post page
+│   ├── AllPosts.tsx         # All posts page
+│   ├── EditPost.tsx         # Edit post page
+│   ├── Home.tsx             # Home/landing page
+│   ├── Login.tsx            # Login page
+│   ├── Post.tsx             # Single post page
+│   ├── Posts.tsx            # Posts listing page
+│   ├── SignUp.tsx           # Sign up page
+│   └── index.ts             # Pages barrel file
+├── services/
+│   └── appwrite/
+│       ├── auth.ts            # Appwrite authentication service
+│       ├── database.ts        # Appwrite database service
+│       └── storage.ts         # Appwrite storage service
+└── store/
+  ├── authSlice.ts         # Redux slice for authentication
+  ├── postsSlice.ts        # Redux slice for posts
+  └── store.ts             # Redux store setup
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Technologies Used
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- React
+- TypeScript
+- Vite
+- Appwrite
+- Redux Toolkit
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Installation
+ 
+1. **Clone the repository:**
+  ```bash
+  git clone https://github.com/AmanGupta1703/Dev-Dairy.git
+  cd Dev-Dairy
+  ```
+
+2. **Install dependencies:**
+  ```bash
+  npm install
+  ```
+
+3. **Configure Appwrite:**
+  - Update `src/config/index.ts` with your Appwrite project credentials.
+
+4. **Start the development server:**
+  ```bash
+  npm run dev
+  ```
+
