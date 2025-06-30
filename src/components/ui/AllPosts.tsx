@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { databaseService } from "../../services/appwrite/database";
 import { addPosts } from "../../store/postsSlice";
 import PostCard from "./PostCard";
+import Loader from "./Loader";
 
 type Post = {
   [key: string]: string;
@@ -35,7 +36,7 @@ function AllPosts() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (

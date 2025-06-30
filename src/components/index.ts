@@ -19,6 +19,7 @@ import RTE from "./ui/RTE";
 import AllPosts from "./ui/AllPosts";
 import PostCard from "./ui/PostCard";
 import SinglePost from "./ui/SinglePost";
+import Loader from "./ui/Loader";
 
 export {
   AppLayout,
@@ -39,4 +40,5 @@ export {
   AllPosts,
   PostCard,
   SinglePost,
+  Loader,
 };

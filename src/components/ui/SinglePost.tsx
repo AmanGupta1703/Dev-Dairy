@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 
 import { databaseService } from "../../services/appwrite/database";
 import { storageService } from "../../services/appwrite/storage";
-import { Button } from "../";
+import { Button, Loader } from "../";
 import { useSelector } from "react-redux";
 
 type Post = {
@@ -53,7 +53,7 @@ function SinglePost() {
   );
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return !isLoading ? (
