@@ -83,7 +83,9 @@ function SinglePost() {
         ) : null}
       </header>
 
-      <div className="mt-6">{parse(post.content)}</div>
+      <div className="mx-auto my-6 max-w-4xl text-xl font-medium text-gray-700">
+        {parse(post.content)}
+      </div>
     </article>
   ) : null;
 }
