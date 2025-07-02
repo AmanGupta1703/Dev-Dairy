@@ -2,7 +2,7 @@ function HeroSection() {
   return (
     <section className="flex items-center justify-between py-8">
       <div className="">
-        <h1 className="mb-4 text-5xl font-bold">Welcome to Dev Dairy</h1>
+        <h1 className="mb-4 text-5xl font-bold">Welcome to Dev Diary</h1>
         <p className="w-2/3 text-lg text-gray-600">
           Track your coding progress, share insights, and grow with the
           developer community. Start your Dev Dairy today!
